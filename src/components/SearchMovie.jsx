@@ -36,6 +36,20 @@ function SearchMovie() {
             <button onClick={handleSearch}>
                 Cerca
             </button>
+
+            {movies.map((movie)=> (
+                <div key={movie.id}>
+                    {movie.poster_path && (
+                        <img src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`} 
+                        alt={movie.title} 
+                        />
+                    )}
+                    <h3>{movie.title}</h3>
+                    <p>{movie.original_title}</p>
+                    <p>{movie.original_language}</p>
+                    <p>{movie.vote_average}</p>
+                </div>
+            ))}
         </div>
     );
 }
