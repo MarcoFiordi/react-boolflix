@@ -3,6 +3,7 @@ import { useState } from "react";
 function SearchMovie() {
     const [searchText, setSearchText] = useState("");
     const [movies, setMovies] = useState([]);
+    const [tvSeries, setTvSeries] = useState([]);
 
     function getFlag(language){
         const flags = {
@@ -32,7 +33,8 @@ function SearchMovie() {
     function handleSearch() {
         const token = import.meta.env.VITE_TMDB_READ_ACCESS_TOKEN;
         const url = `https://api.themoviedb.org/3/search/movie?query=${searchText}&language=it-IT`;
-        
+        const tvUrl = `https://api.themoviedb.org/3/search/tv?query=${searchText}&language=it-IT`;
+
         const options = {
             method: "GET",
             headers: {
@@ -54,7 +56,19 @@ function SearchMovie() {
                 console.log('ricerca completata');
                 
             })
-            
+        
+        fetch(tvUrl, options)
+            .then((response) => response.json())
+            .then((data) => {
+                setTvSeries(data.results);
+            })
+            .catch((error) => {
+                console.error('errore nella ricerca serie tv', error);
+            })
+            .finally(() => {
+                console.log('ricerca serie tv completata');
+                
+            })
 
     }
 
@@ -69,13 +83,23 @@ function SearchMovie() {
             <button onClick={handleSearch}>
                 Cerca
             </button>
-
+            <h2>Film</h2>
             {movies.map((movie)=> (
                 <div key={movie.id}>
                     <h3> {movie.title}</h3>
                     <p>Titolo originale: {movie.original_title}</p>
                     <p>Lingua: {getFlag(movie.original_language)}</p>
                     <p>Voto: {movie.vote_average}</p>
+                </div>
+            ))}
+
+            <h2>Serie TV</h2>
+            {tvSeries.map((serie) => (
+                <div key={serie.id}>
+                    <h3>{serie.name}</h3>
+                    <p>Titolo originale: {serie.original_name}</p>
+                    <p>Lingua: {getFlag(serie.original_language)}</p>
+                    <p>Voto: {serie.vote_average}</p>
                 </div>
             ))}
         </div>
