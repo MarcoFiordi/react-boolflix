@@ -1,6 +1,11 @@
+import SearchMovie from "../components/SearchMovie";
+
+
 function HomePage() {
   return (
-    <h1>Home</h1>
+    <main>
+      <SearchMovie />
+    </main>
   );
 }
 export default HomePage;
