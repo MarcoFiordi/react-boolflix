@@ -20,8 +20,16 @@ function SearchMovie() {
             .then((response) => response.json())
             .then((data) => {
                 setMovies(data.results);
+            })
+            .catch((error) => {
+                console.error('errore nella ricerca:', error);
                 
-            });
+            })
+            .finally(() => {
+                console.log('ricerca completata');
+                
+            })
+            
 
     }
 
@@ -39,15 +47,10 @@ function SearchMovie() {
 
             {movies.map((movie)=> (
                 <div key={movie.id}>
-                    {movie.poster_path && (
-                        <img src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`} 
-                        alt={movie.title} 
-                        />
-                    )}
                     <h3>{movie.title}</h3>
-                    <p>{movie.original_title}</p>
-                    <p>{movie.original_language}</p>
-                    <p>{movie.vote_average}</p>
+                    <p>Titolo originale:{movie.original_title}</p>
+                    <p>Lingua:{movie.original_language}</p>
+                    <p>Voto:{movie.vote_average}</p>
                 </div>
             ))}
         </div>
