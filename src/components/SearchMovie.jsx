@@ -37,6 +37,23 @@ function SearchMovie() {
         return `https://image.tmdb.org/t/p/w342${path}`;
     }
 
+    function getStar(vote) {
+        const fullStars = Math.ceil(vote / 2);
+        const emptyStars = 5 - fullStars;
+
+        return (
+            <>
+                {[...Array(fullStars)].map((_, index) => (
+                    <i key={index} className="fa-solid fa-star"></i>
+                ))}
+
+                {[...Array(emptyStars)].map((_, index) => (
+                    <i key={index} className="fa-regular fa-star"></i>
+                ))}
+            </>
+        );
+    }
+
     function handleSearch() {
         const token = import.meta.env.VITE_TMDB_READ_ACCESS_TOKEN;
         const url = `https://api.themoviedb.org/3/search/movie?query=${searchText}&language=it-IT`;
@@ -99,7 +116,7 @@ function SearchMovie() {
                     <h3> {movie.title}</h3>
                     <p>Titolo originale: {movie.original_title}</p>
                     <p>Lingua: {getFlag(movie.original_language)}</p>
-                    <p>Voto: {movie.vote_average}</p>
+                    <p>Voto: {getStar(movie.vote_average)} stelle</p>
                 </div>
             ))}
 
@@ -112,7 +129,7 @@ function SearchMovie() {
                     <h3>{serie.name}</h3>
                     <p>Titolo originale: {serie.original_name}</p>
                     <p>Lingua: {getFlag(serie.original_language)}</p>
-                    <p>Voto: {serie.vote_average}</p>
+                    <p>Voto: {getStar(serie.vote_average)} stelle</p>
                 </div>
             ))}
         </div>
