@@ -5,7 +5,7 @@ function SearchMovie() {
     const [movies, setMovies] = useState([]);
     const [tvSeries, setTvSeries] = useState([]);
 
-    function getFlag(language){
+    function getFlag(language) {
         const flags = {
             en: 'gb',
             it: 'it',
@@ -18,16 +18,23 @@ function SearchMovie() {
         };
         const countryCode = flags[language];
 
-        if (!countryCode){
+        if (!countryCode) {
             return language;
         }
-        
-        return(
-            <img 
-            src={`https://flagcdn.com/24x18/${countryCode}.png`} 
-            alt={language} 
+
+        return (
+            <img
+                src={`https://flagcdn.com/24x18/${countryCode}.png`}
+                alt={language}
             />
         );
+    }
+
+    function getPoster(path) {
+        if (!path) {
+            return null
+        }
+        return `https://image.tmdb.org/t/p/w342${path}`;
     }
 
     function handleSearch() {
@@ -50,13 +57,13 @@ function SearchMovie() {
             })
             .catch((error) => {
                 console.error('errore nella ricerca:', error);
-                
+
             })
             .finally(() => {
                 console.log('ricerca completata');
-                
+
             })
-        
+
         fetch(tvUrl, options)
             .then((response) => response.json())
             .then((data) => {
@@ -67,7 +74,7 @@ function SearchMovie() {
             })
             .finally(() => {
                 console.log('ricerca serie tv completata');
-                
+
             })
 
     }
@@ -84,8 +91,11 @@ function SearchMovie() {
                 Cerca
             </button>
             <h2>Film</h2>
-            {movies.map((movie)=> (
+            {movies.map((movie) => (
                 <div key={movie.id}>
+                    {movie.poster_path && (
+                        <img src={getPoster(movie.poster_path)} alt={movie.title} />
+                    )}
                     <h3> {movie.title}</h3>
                     <p>Titolo originale: {movie.original_title}</p>
                     <p>Lingua: {getFlag(movie.original_language)}</p>
@@ -96,6 +106,9 @@ function SearchMovie() {
             <h2>Serie TV</h2>
             {tvSeries.map((serie) => (
                 <div key={serie.id}>
+                    {serie.poster_path && (
+                        <img src={getPoster(serie.poster_path)} alt={serie.name} />
+                    )}
                     <h3>{serie.name}</h3>
                     <p>Titolo originale: {serie.original_name}</p>
                     <p>Lingua: {getFlag(serie.original_language)}</p>
