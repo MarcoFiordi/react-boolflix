@@ -1,9 +1,13 @@
 import { useState } from "react";
+import Header from "../components/Header";
+import MediaCard from "../components/MediaCard";
+
 
 function SearchMovie() {
     const [searchText, setSearchText] = useState("");
     const [movies, setMovies] = useState([]);
     const [tvSeries, setTvSeries] = useState([]);
+
 
     function getFlag(language) {
         const flags = {
@@ -97,41 +101,70 @@ function SearchMovie() {
     }
 
     return (
-        <div>
-            <input type="text"
-                placeholder="Cerca un film"
-                value={searchText}
-                onChange={(event) => setSearchText(event.target.value)}
+        <div className="search-page">
+            <Header
+                searchText={searchText}
+                setSearchText={setSearchText}
+                handleSearch={handleSearch}
             />
 
-            <button onClick={handleSearch}>
-                Cerca
-            </button>
-            <h2>Film</h2>
-            {movies.map((movie) => (
-                <div key={movie.id}>
-                    {movie.poster_path && (
-                        <img src={getPoster(movie.poster_path)} alt={movie.title} />
-                    )}
-                    <h3> {movie.title}</h3>
-                    <p>Titolo originale: {movie.original_title}</p>
-                    <p>Lingua: {getFlag(movie.original_language)}</p>
-                    <p>Voto: {getStar(movie.vote_average)} stelle</p>
-                </div>
-            ))}
+            {movies.length > 0 && (
+                <section className="my-5">
+                    <h2 className="px-4 mb-3">Film</h2>
 
-            <h2>Serie TV</h2>
-            {tvSeries.map((serie) => (
-                <div key={serie.id}>
-                    {serie.poster_path && (
-                        <img src={getPoster(serie.poster_path)} alt={serie.name} />
-                    )}
-                    <h3>{serie.name}</h3>
-                    <p>Titolo originale: {serie.original_name}</p>
-                    <p>Lingua: {getFlag(serie.original_language)}</p>
-                    <p>Voto: {getStar(serie.vote_average)} stelle</p>
-                </div>
-            ))}
+                    <div className="container-fluid px-4">
+                        <div className="row gy-5 gx-3">
+                            {movies.map((movie) => (
+                                <div
+                                    className="col-6 col-md-4 col-lg-3 col-xl-2 mb-4"
+                                    key={movie.id}
+                                >
+                                    <MediaCard
+                                        title={movie.title}
+                                        originalTitle={movie.original_title}
+                                        language={movie.original_language}
+                                        vote={movie.vote_average}
+                                        overview={movie.overview}
+                                        posterPath={movie.poster_path}
+                                        getPoster={getPoster}
+                                        getFlag={getFlag}
+                                        getStar={getStar}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {tvSeries.length > 0 && (
+                <section className="my-5">
+                    <h2 className="px-4 mb-3">Serie TV</h2>
+
+                    <div className="container-fluid px-4">
+                        <div className="row gy-5 gx-3">
+                            {tvSeries.map((serie) => (
+                                <div
+                                    className="col-6 col-md-4 col-lg-3 col-xl-2 mb-4"
+                                    key={serie.id}
+                                >
+                                    <MediaCard
+                                        title={serie.name}
+                                        originalTitle={serie.original_name}
+                                        language={serie.original_language}
+                                        vote={serie.vote_average}
+                                        overview={serie.overview}
+                                        posterPath={serie.poster_path}
+                                        getPoster={getPoster}
+                                        getFlag={getFlag}
+                                        getStar={getStar}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
         </div>
     );
 }

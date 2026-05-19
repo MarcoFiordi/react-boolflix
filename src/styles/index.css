@@ -1,12 +1,39 @@
-/*
-  Stile generale del progetto
-  ===========================
+.poster-img {
+  width: 100%;
+  display: block;
+}
+.media-card {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  background-color: #000;
+}
 
-  Questo file contiene gli stili globali dell'applicazione, cioè le regole
-  CSS che si applicano a tutta l'app (reset, tipografia di base, variabili,
-  utility personalizzate, ecc.).
+.poster-img {
+  width: 100%;
+  display: block;
+}
 
-  Viene importato una sola volta in `src/main.jsx` e ha effetto su tutti i
-  componenti. Per stili specifici di un singolo componente è preferibile
-  usare un CSS Module (es. `NomeComponente.module.css`).
-*/
+.media-info {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 1rem;
+  opacity: 0;
+  overflow-y: auto;
+  transition: opacity 0.3s ease;
+}
+
+.media-card:hover .media-info {
+  opacity: 1;
+}
+
+.media-info h3 {
+  font-size: 1rem;
+}
+
+.media-info p {
+  font-size: 0.8rem;
+  margin-bottom: 0.4rem;
+}

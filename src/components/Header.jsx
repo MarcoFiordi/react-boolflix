@@ -1,14 +1,17 @@
 import { NavLink } from "react-router";
 import useTheme from "../hooks/useTheme";
 
-function Header() {
+function Header({ searchText, setSearchText, handleSearch }) {
     const { theme, toggleTheme } = useTheme();
 
     return (
         <header>
-            <nav className="navbar navbar-expand-lg bg-body-tertiary border-bottom">
-                <div className="container">
-                    <NavLink className="navbar-brand fw-semibold" to="/">MyApp</NavLink>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark border-bottom px-4">
+                <div className="container-fluid">
+                    <NavLink className="navbar-brand fw-bold text-danger fs-3" to="/">
+                        BOOLFLIX
+                    </NavLink>
+
                     <button
                         className="navbar-toggler"
                         type="button"
@@ -17,24 +20,29 @@ function Header() {
                     >
                         <span className="navbar-toggler-icon" />
                     </button>
+
                     <div className="collapse navbar-collapse" id="mainNav">
-                        <ul className="navbar-nav ms-auto align-items-center">
-                            <li className="nav-item">
-                                <NavLink className="nav-link" to="/">Home</NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink className="nav-link" to="/about">About</NavLink>
-                            </li>
-                            <li className="nav-item ms-2">
-                                <button
-                                    className="btn btn-outline-secondary btn-sm"
-                                    onClick={toggleTheme}
-                                    aria-label="Cambia tema"
-                                >
-                                    {theme === 'light' ? '🌙' : '☀️'}
-                                </button>
-                            </li>
-                        </ul>
+                        <div className="d-flex gap-2 ms-auto">
+                            <input
+                                className="form-control"
+                                type="text"
+                                placeholder="Cerca un film o una serie TV"
+                                value={searchText}
+                                onChange={(event) => setSearchText(event.target.value)}
+                            />
+
+                            <button className="btn btn-danger" onClick={handleSearch}>
+                                Cerca
+                            </button>
+
+                            <button
+                                className="btn btn-outline-light btn-sm"
+                                onClick={toggleTheme}
+                                aria-label="Cambia tema"
+                            >
+                                {theme === "light" ? "🌙" : "☀️"}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </nav>
